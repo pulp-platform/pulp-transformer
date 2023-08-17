@@ -6,9 +6,9 @@
 *Francesco Conti,*
 *Luca Benini*
 
-This repository contains the code of the kernels used in the *MCU is All You Need*
 [[`paper`](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9524173)] [[`slides`](https://pulp-platform.org/docs/IEEECOINS2021.pdf)]
 
+This repository contains the code of the kernels used in the *MCU is All You Need*
 
 ## Abstract
 
