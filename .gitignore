@@ -1,0 +1,15 @@
+Application*/
+.vscode/
+__pycache__/
+*.pyc
+null*/
+*.png
+*.DS_Store
+deeploytest/
+deeploybasiclibs/
+deeploycmsislibs/
+build/
+*.s
+*.log
+Plots/*
+Results*/

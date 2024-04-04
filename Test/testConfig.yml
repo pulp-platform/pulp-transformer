@@ -1,0 +1,208 @@
+cores: 8
+seed: 42
+
+### MHSA Parameters ###
+
+# EEGFormer 
+# S: 81
+# E: 32
+# P: 32
+# H: 8
+
+# ECGFormer
+# S: 66
+# E: 16
+# P: 2
+# H: 8
+
+# Custom
+S:
+  - 16
+  # - 32
+  # - 48
+  # - 64
+  # - 80
+  # - 96
+  # - 112
+  # - 128
+E: 
+  - 16
+  # - 32
+  # - 48
+  # - 64
+  # - 80
+  # - 96
+  # - 112
+  # - 128
+P:
+  - 16
+H: 
+  - 8
+
+testToRun:
+  - projQK
+  - projV
+  - projO
+  - matmulSoftmaxM1_S
+  - matmulM2_S
+  - projPULPNN
+  - matmulSoftmaxM1PULPNN
+  - matmulM2PULPNN
+  - projOPULPNN
+  - matmulSoftmaxFWA_v3
+
+# Full MHSA 
+MHSA:
+  platform: gvsoc
+  kernelName: None
+  appFolder: ./Application/GAP9MHSA
+  inputGen: None
+  templateGen: generateTemplateMHSA
+  goldenKernel: None
+
+# Full MHSA with FWA
+MHSAFWA:
+  platform: gvsoc
+  kernelName: None
+  appFolder: ./Application/GAP9MHSAFWA
+  inputGen: None
+  templateGen: generateTemplateMHSAFWA
+  goldenKernel: None
+
+# Full MHSA with PULPNN
+MHSAPULPNN:
+  platform: gvsoc
+  kernelName: None
+  appFolder: ./Application/GAP9MHSAPULPNN
+  inputGen: None
+  templateGen: generateTemplateMHSAPULPNN
+  goldenKernel: None
+
+# Fused-Weight Attention (No SIMD / No Unrolling)
+matmulSoftmaxFWA_v1:
+  kernelName: matmulSoftmax_FWA_v1
+  appFolder: ./Application/GAP9FWA_v1
+  inputGen: generateInputsFWA
+  templateGen: generateTemplateFWA
+  goldenKernel: matmulSoftmaxFWA
+
+# Fused-Weight Attention V2 (No Unrolling)
+matmulSoftmaxFWA_v2:
+  kernelName: matmulSoftmax_FWA_v2
+  appFolder: ./Application/GAP9FWA_v2
+  inputGen: generateInputsFWA
+  templateGen: generateTemplateFWA
+  goldenKernel: matmulSoftmaxFWA
+
+# Fused-Weight Attention V3
+matmulSoftmaxFWA_v3:
+  kernelName: matmulSoftmax_FWA_v3_H
+  appFolder: ./Application/GAP9FWA_v3
+  inputGen: generateInputsFWA
+  templateGen: generateTemplateFWA
+  goldenKernel: matmulSoftmaxFWA
+
+# Projection QK
+iSoftmax:
+  kernelName: linearQK_4x2_H
+  appFolder: ./Application/GAP9LinProjQK
+  inputGen: generateInputsQKV
+  templateGen: generateTemplateSoftmax
+  goldenKernel: linearProjectionQK
+  platform: gvsoc
+
+# Projection QK
+projQK:
+  kernelName: linearQK_4x2_H
+  appFolder: ./Application/GAP9LinProjQK
+  inputGen: generateInputsQKV
+  templateGen: generateTemplateQKV
+  goldenKernel: linearProjectionQK
+  platform: gvsoc
+
+# Projection V
+projV:
+  kernelName: linearV_4x2_H
+  appFolder: ./Application/GAP9LinProjV
+  inputGen: generateInputsQKV
+  templateGen: generateTemplateQKV
+  goldenKernel: linearProjectionV
+  platform: gvsoc
+
+# Projection Out
+projO:
+  kernelName: linearO_4x2_H
+  appFolder: ./Application/GAP9LinProjO
+  inputGen: generateInputsO
+  templateGen: generateTemplateO
+  goldenKernel: linearProjectionO
+  platform: gvsoc
+
+# GEMM + Softmax (M1): Parallelized over S
+matmulSoftmaxM1_S:
+  kernelName: matmulSoftmax_4x2_S
+  appFolder: ./Application/GAP9MatmulSoftmaxM1_S
+  inputGen: generateInputsM1
+  templateGen: generateTemplateM1
+  goldenKernel: matmulSoftmaxM1
+  platform: gvsoc
+
+# GEMM + Softmax (M1): Parallelized over H
+matmulSoftmaxM1_H:
+  kernelName: matmulSoftmax_4x2_H
+  appFolder: ./Application/GAP9MatmulSoftmaxM1_H
+  inputGen: generateInputsM1
+  templateGen: generateTemplateM1
+  goldenKernel: matmulSoftmaxM1
+  platform: gvsoc
+
+# GEMM (M2): Parallelized over S
+matmulM2_S:
+  kernelName: matmul_4x2_S
+  appFolder: ./Application/GAP9MatmulM2_S
+  inputGen: generateInputsM2
+  templateGen: generateTemplateM2
+  goldenKernel: matmulM2
+  platform: gvsoc
+
+# GEMM (M2): Parallelized over H
+matmulM2_H:
+  kernelName: matmul_4x2_H
+  appFolder: ./Application/GAP9MatmulM2_H
+  inputGen: generateInputsM2
+  templateGen: generateTemplateM2
+  goldenKernel: matmulM2
+  platform: gvsoc
+
+# Projection PULP-NN
+projPULPNN:
+  kernelName: pulp_nn_linear_i8_i8_i8
+  appFolder: ./Application/GAP9LinProjPULPNN
+  inputGen: generateInputsQKV
+  templateGen: generateTemplateProjPULPNN
+  goldenKernel: linearProjectionPULPNN
+
+# GEMM + Softmax (M1): PULP-NN
+matmulSoftmaxM1PULPNN:
+  kernelName: pulp_nn_linear_i8_i8_i8
+  appFolder: ./Application/GAP9MatmulSoftmaxM1PULPNN
+  inputGen: generateInputsM1PULPNN
+  templateGen: generateTemplateM1PULPNN
+  goldenKernel: matmulSoftmaxM1PULPNN
+  platform: gvsoc
+
+# GEMM (M2): PULP-NN
+matmulM2PULPNN:
+  kernelName: pulp_nn_linear_i8_i8_i8
+  appFolder: ./Application/GAP9MatmulM2PULPNN
+  inputGen: generateInputsM2PULPNN
+  templateGen: generateTemplateM2PULPNN
+  goldenKernel: matmulM2PULPNN
+
+# Projection Out PULP-NN
+projOPULPNN :
+  kernelName: pulp_nn_linear_i8_i8_i8
+  appFolder: ./Application/GAP9LinProjOPULPNN
+  inputGen: generateInputsOPULPNN
+  templateGen: generateTemplateProjOPULPNN
+  goldenKernel: linearProjectionOPULPNN
