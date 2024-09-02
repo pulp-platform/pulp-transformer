@@ -5,7 +5,7 @@
 *Francesco Conti,*
 *Luca Benini*
 
-[[`paper(TBA)`](TBA)]
+[[`paper (arxiv)`](https://arxiv.org/abs/2404.02945)]
 
 This repository contains code used in *Optimizing the Deployment of Tiny Transformers on Low-Power MCUs*.
 
@@ -60,5 +60,13 @@ If you want to run more than one test a the time you can simply add more test to
 If you use our work or find it valuable, please cite us with:
 
 ```
-TBA
+@misc{jung2024optimizingdeploymenttinytransformers,
+      title={Optimizing the Deployment of Tiny Transformers on Low-Power MCUs}, 
+      author={Victor J. B. Jung and Alessio Burrello and Moritz Scherer and Francesco Conti and Luca Benini},
+      year={2024},
+      eprint={2404.02945},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2404.02945}, 
+}
 ```
